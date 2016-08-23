@@ -1,0 +1,9 @@
+<div class="landing-cont">
+  <div ng-repeat="image in lc.images">
+    <a href="#/fullsize/{{image.id}}" class="thumbnail">
+      <img ng-src="{{image.url}}" height="100" width="100" />
+      <br />
+      {{ image.title }}
+    </a>
+  </div>
+</div>
