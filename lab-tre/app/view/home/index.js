@@ -1,11 +1,13 @@
 'use strict';
 
 const angular = require('angular');
+const demoApp = angular.module('demoApp');
 
-angular.module('imgApp')
-  .controller('HomeController', ['$rootScope', HomeController]);
+demoApp.controller('HomeController', ['$rootScope', HomeController]);
 
+
+
+//with constructor function
 function HomeController($rootScope) {
-  let hc = this;
-  hc.images = $rootScope.imageData;
+  this.images = $rootScope.imageData;
 }

@@ -1,22 +1,22 @@
 'use strict';
-
 const angular = require('angular');
-const isValidId = require('./id_check.js');
+const demoApp = angular.module('demoApp');
 
-angular.module('imgApp')
-  .controller('FullsizeController', [
-    '$rootScope',
-    '$routeParams',
-    '$location',
-    FullsizeController
-  ]);
+demoApp.controller('FullsizeController', ['$routeParams', '$rootScope', '$location', function($routeParams, $rootScope, $location) {
+  this.images = $rootScope.imageData;
 
-function FullsizeController($rootScope, $routeParams, $location) {
-  let fsc = this;
-  let id = $routeParams.id;
-  fsc.images = $rootScope.imageData;
+  this.isValidId = function(id) {
+    if (isNaN(id)) return false;
+    if (!isFinite(id)) return false;
+    if (id < 1) return false;
+    if (typeof(this.images[id - 1]) === 'undefined') return false;
+    return true;
+  };
 
-  if (!isValidId(id, fsc)) $location.path('/error');
+  let id = Number.parseInt($routeParams.id);
+  if (!this.isValidId(id)) {
+    $location.path('/error');
+  }
+  this.image = this.images[id - 1];
 
-  fsc.image = fsc.images[id - 1];
-}
+}]);

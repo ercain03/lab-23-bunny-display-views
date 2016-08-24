@@ -1,11 +1,9 @@
 'use strict';
+require('./error.scss');
 
 const angular = require('angular');
+const demoApp = angular.module('demoApp');
 
-angular.module('imgApp')
-  .controller('ErrorController', ['$rootScope', ErrorController]);
-
-function ErrorController($rootScope) {
-  let ec = this;
-  ec.errorMessage = $rootScope.errorMessage;
-}
+demoApp.controller('ErrorController', ['$rootScope', function($rootScope) {
+  this.errorMessage = $rootScope.errorMessage;
+}]);

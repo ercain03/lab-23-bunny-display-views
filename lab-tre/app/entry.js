@@ -1,19 +1,50 @@
 'use strict';
 
+// webpack assets
 require('!!file?name=[name].[ext]!./html/index.html');
 require('./scss/base.scss');
 
+// npm modules
 const angular = require('angular');
 const angular_route = require('angular-route');
 
-const rootData = require('./data/root_data.js');
-const routes = require('./routes/route.js');
+// angular modules
+var app = angular.module('demoApp', [angular_route]);
 
-angular.module('imgApp', [angular_route]);
-angular.module('imgApp').run(['$rootScope', rootData]);
-angular.module('imgApp').config(routes);
+app.run(['$rootScope', function($rootScope) {
+  $rootScope.imageData = require('./data/images.js');
+  $rootScope.errorMessage = 'Error trying to access unknown page';
+}]);
 
+app.config(['$routeProvider', function($route) {
+  $route
+    .when('/', {
+      template: require('./view/home/home.html'),
+      controller: 'HomeController',
+      controllerAs: 'hc'
+    })
+    .when('/thumbnail', {
+      template: require('./view/thumbnail/thumbnail.html'),
+      controller: 'ThumbnailController',
+      controllerAs: 'th'
+    })
+    .when('/error', {
+      template: require('./view/error/error.html'),
+      controller: 'ErrorController',
+      controllerAs: 'er'
+    })
+    .when('/fullsize/:id', {
+      template: require('./view/fullsize/fullsize.html'),
+      controller: 'FullsizeController',
+      controllerAs: 'fs'
+    })
+    .otherwise({
+      redirectTo: '/error'
+    });
+}]);
+
+// angular components
 require('./view/home');
-require('./view/landing');
+require('./view/thumbnail');
 require('./view/fullsize');
 require('./view/error');
